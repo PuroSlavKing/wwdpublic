@@ -1,7 +1,6 @@
 using Content.Shared.Database;
 using Content.Shared.Hands.Components;
 using Content.Shared.Item;
-using Content.Shared.Light.Components;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
 using Robust.Shared.Physics;
@@ -11,7 +10,6 @@ namespace Content.Shared.Hands.EntitySystems;
 
 public abstract partial class SharedHandsSystem : EntitySystem
 {
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
     private void InitializePickup()
     {
         SubscribeLocalEvent<HandsComponent, EntInsertedIntoContainerMessage>(HandleEntityInserted);
@@ -224,15 +222,11 @@ public abstract partial class SharedHandsSystem : EntitySystem
             Log.Error($"Failed to insert {ToPrettyString(entity)} into users hand container when picking up. User: {ToPrettyString(uid)}. Hand: {hand.Name}.");
             return;
         }
-	
-        if (TryComp<RotatePointLightComponent>(entity, out var rotcomp))	// WWDP EDIT
-            _transform.SetLocalRotation(entity, -rotcomp.Angle);			// WWDP EDIT
 
         _adminLogger.Add(LogType.Pickup, LogImpact.Low, $"{ToPrettyString(uid):user} picked up {ToPrettyString(entity):entity}");
 
         Dirty(uid, hands);
 
-        RaiseLocalEvent(entity, new ItemPickedUpEvent(uid)); // WWDP EDIT
         if (hand == hands.ActiveHand)
             RaiseLocalEvent(entity, new HandSelectedEvent(uid), false);
     }

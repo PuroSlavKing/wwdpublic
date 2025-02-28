@@ -8,7 +8,6 @@ using Content.Shared.DragDrop;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Popups;
-using Content.Shared.RenderOrderSystem;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.Input;
@@ -43,7 +42,6 @@ public sealed class DragDropSystem : SharedDragDropSystem
     [Dependency] private readonly ActionBlockerSystem _actionBlockerSystem = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SharedRenderOrderSystem _renderOrder = default!;
 
     // how often to recheck possible targets (prevents calling expensive
     // check logic each update)
@@ -246,7 +244,7 @@ public sealed class DragDropSystem : SharedDragDropSystem
             _dragShadow = EntityManager.SpawnEntity("dragshadow", mousePos);
             var dragSprite = Comp<SpriteComponent>(_dragShadow.Value);
             dragSprite.CopyFrom(draggedSprite);
-            _renderOrder.MoveToTop(draggedSprite.Owner, nameof(DragDropSystem)); // WWDP
+            dragSprite.RenderOrder = EntityManager.CurrentTick.Value;
             dragSprite.Color = dragSprite.Color.WithAlpha(0.7f);
             // keep it on top of everything
             dragSprite.DrawDepth = (int) DrawDepth.Overlays;
@@ -463,7 +461,7 @@ public sealed class DragDropSystem : SharedDragDropSystem
 
             // highlight depending on whether its in or out of range
             inRangeSprite.PostShader = valid.Value ? _dropTargetInRangeShader : _dropTargetOutOfRangeShader;
-            _renderOrder.MoveToTop(inRangeSprite.Owner, nameof(DragDropSystem)); // WWDP
+            inRangeSprite.RenderOrder = EntityManager.CurrentTick.Value;
             _highlightedSprites.Add(inRangeSprite);
         }
     }
@@ -476,8 +474,7 @@ public sealed class DragDropSystem : SharedDragDropSystem
                 continue;
 
             highlightedSprite.PostShader = null;
-            _renderOrder.UnsetRenderOrder(highlightedSprite.Owner, "DragDropSystem");
-            //highlightedSprite.RenderOrder = 0;
+            highlightedSprite.RenderOrder = 0;
         }
 
         _highlightedSprites.Clear();

@@ -1,6 +1,5 @@
 using System.Numerics;
 using Content.Shared.Interaction;
-using Content.Shared.RenderOrderSystem;
 using Content.Shared.Whitelist;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
@@ -24,7 +23,6 @@ public sealed class TargetOutlineSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly SharedInteractionSystem _interactionSystem = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
-    [Dependency] private readonly SharedRenderOrderSystem _renderOrder = default!;
 
     private bool _enabled = false;
 
@@ -156,7 +154,7 @@ public sealed class TargetOutlineSystem : EntitySystem
                 if (_highlightedSprites.Remove(sprite) && (sprite.PostShader == _shaderTargetValid || sprite.PostShader == _shaderTargetInvalid))
                 {
                     sprite.PostShader = null;
-                    _renderOrder.UnsetRenderOrder(sprite.Owner, nameof(TargetOutlineSystem));
+                    sprite.RenderOrder = 0;
                 }
 
                 continue;
@@ -179,7 +177,7 @@ public sealed class TargetOutlineSystem : EntitySystem
 
             // highlight depending on whether its in or out of range
             sprite.PostShader = valid ? _shaderTargetValid : _shaderTargetInvalid;
-            _renderOrder.MoveToTop(sprite.Owner, nameof(TargetOutlineSystem)); // WWDP
+            sprite.RenderOrder = EntityManager.CurrentTick.Value;
             _highlightedSprites.Add(sprite);
         }
     }
@@ -192,7 +190,7 @@ public sealed class TargetOutlineSystem : EntitySystem
                 continue;
 
             sprite.PostShader = null;
-            //sprite.RenderOrder = 0;
+            sprite.RenderOrder = 0;
         }
 
         _highlightedSprites.Clear();
