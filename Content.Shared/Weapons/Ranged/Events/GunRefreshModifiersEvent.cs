@@ -17,8 +17,6 @@ public record struct GunRefreshModifiersEvent(
     Angle AngleDecay,
     Angle MaxAngle,
     Angle MinAngle,
-    Angle BonusAngleDecay,	// WWDP
-    Angle MaxBonusAngle,	// WWDP
     int ShotsPerBurst,
     float FireRate,
     float ProjectileSpeed
