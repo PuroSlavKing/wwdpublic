@@ -145,18 +145,11 @@ namespace Content.Client.Chat.UI
             }
 
             var baseOffset = 0f;
-			
-			// WWDP EDIT START
-            var spriteOffset = Vector2.Zero;
-            if (_entityManager.TryGetComponent<SpriteComponent>(_senderEntity, out var spriteComponent))
-                spriteOffset = spriteComponent.Offset;
-			// WWDP EDIT END
-			
-            if (_entityManager.TryGetComponent<SpeechComponent>(_senderEntity, out var speech))
+
+           if (_entityManager.TryGetComponent<SpeechComponent>(_senderEntity, out var speech))
                 baseOffset = speech.SpeechBubbleOffset;
 
             var offset = (-_eyeManager.CurrentEye.Rotation).ToWorldVec() * -(EntityVerticalOffset + baseOffset);
-            offset += (-_eyeManager.CurrentEye.Rotation).RotateVec(spriteOffset); // WWDP EDIT // need to account for sprite offset for pixel perfect camera
             var worldPos = _transformSystem.GetWorldPosition(xform) + offset;
 
             var lowerCenter = _eyeManager.WorldToScreen(worldPos) / UIScale;

@@ -93,8 +93,8 @@ public sealed class StatusIconOverlay : Overlay
                         accOffsetL += texture.Height;
                         countL++;
                     }
-                    xOffset = -bounds.Width / 2f + sprite.Offset.X;                                                     // WWDP EDIT // WHO THE FUCK WROTE THIS???
-                    yOffset = bounds.Height / 2f + sprite.Offset.Y - (float) accOffsetL / EyeManager.PixelsPerMeter;    // WWDP EDIT // DID THEY EVEN TEST IT???
+                    yOffset = (bounds.Height + sprite.Offset.Y) / 2f - (float) accOffsetL / EyeManager.PixelsPerMeter;
+                    xOffset = -(bounds.Width + sprite.Offset.X) / 2f;
 
                 }
                 else
@@ -106,8 +106,8 @@ public sealed class StatusIconOverlay : Overlay
                         accOffsetR += texture.Height;
                         countR++;
                     }
-                    xOffset = bounds.Width / 2f  + sprite.Offset.X - (float) texture.Width / EyeManager.PixelsPerMeter; // WWDP EDIT
-                    yOffset = bounds.Height / 2f + sprite.Offset.Y - (float) accOffsetR / EyeManager.PixelsPerMeter;    // WWDP EDIT
+                    yOffset = (bounds.Height + sprite.Offset.Y) / 2f - (float) accOffsetR / EyeManager.PixelsPerMeter;
+                    xOffset = (bounds.Width + sprite.Offset.X) / 2f - (float) texture.Width / EyeManager.PixelsPerMeter;
 
                 }
 
