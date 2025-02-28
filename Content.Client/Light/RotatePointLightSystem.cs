@@ -9,7 +9,7 @@ using Robust.Client.Animations;
 using Robust.Shared.Animations;
 using static Content.Shared.Fax.AdminFaxEuiMsg;
 
-namespace Content.Client._White.Light;
+namespace Content.Client.Light;
 
 /// <summary>
 ///  pointlight's rotation is not a datafield and is restricted by access attribute

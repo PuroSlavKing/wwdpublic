@@ -1,5 +1,5 @@
 using Content.Shared.Hands.EntitySystems;
-using Content.Shared._White.RenderOrderSystem;
+using Content.Shared.RenderOrderSystem;
 using Robust.Client.GameObjects;
 using Robust.Shared.GameStates;
 using Robust.Shared.Utility;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Content.Client._White.RenderOrderSystem;
+namespace Content.Client.DrawOrderVisualizer;
 
 // TODO:
 // Currently any clientside change to the render order can be invalidated by a

@@ -1,1 +1,0 @@
-ui-options-function-precise-drop = Precise drop

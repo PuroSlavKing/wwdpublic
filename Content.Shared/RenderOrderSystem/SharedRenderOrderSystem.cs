@@ -1,7 +1,12 @@
 using Robust.Shared.GameStates;
 using Robust.Shared.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Content.Shared._White.RenderOrderSystem;
+namespace Content.Shared.RenderOrderSystem;
 
 
 public abstract class SharedRenderOrderSystem : EntitySystem
@@ -9,6 +14,7 @@ public abstract class SharedRenderOrderSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<RenderOrderComponent, ComponentStartup>(DrawOrderComponentStartup);
+        //SubscribeLocalEvent<DrawOrderComponent, ComponentShutdown>(DrawOrderComponentShutdown);
     }
 
     public void MoveToTop(EntityUid uid) => SetRenderOrder(uid, EntityManager.CurrentTick.Value, "default");
@@ -48,6 +54,11 @@ public abstract class SharedRenderOrderSystem : EntitySystem
     {
         UpdateRenderOrder(uid, comp);
     }
+
+    //protected virtual void DrawOrderComponentShutdown(EntityUid uid, DrawOrderComponent comp, ComponentShutdown args)
+    //{
+    //    UpdateRenderOrder(uid, comp);
+    //}
 }
 
 

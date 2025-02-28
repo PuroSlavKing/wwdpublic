@@ -1,16 +1,20 @@
-using Content.Client.Hands;
+using System.Numerics;
 using Content.Client.Hands.Systems;
-using Content.Shared._White.Hands.Components;
+using Content.Shared.CCVar;
 using Content.Shared.Hands.Components;
+using Content.Shared.Hands.EntitySystems;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.Input;
 using Robust.Client.Player;
+using Robust.Client.UserInterface;
+using Robust.Shared.Configuration;
+using Robust.Shared.Enums;
 using Robust.Shared.Graphics;
 using Robust.Shared.Map;
-using System.Numerics;
+using Direction = Robust.Shared.Maths.Direction;
 
-namespace Content.Client._White.Hands;
+namespace Content.Client.Hands;
 
 
 public sealed class DropOverlay : Overlay
@@ -33,6 +37,9 @@ public sealed class DropOverlay : Overlay
         IoCManager.InjectDependencies(this);
         _hands = hands;
         _transform = transform;
+
+        //var cache = IoCManager.Resolve<IResourceCache>();
+        //_font = new VectorFont(cache.GetResource<FontResource>("/Fonts/NotoSans/NotoSans-Regular.ttf"), 8);
 
         _renderBackbuffer = _clyde.CreateRenderTarget(
             (128, 128),
@@ -58,8 +65,10 @@ public sealed class DropOverlay : Overlay
         // Why do i have to do so much to simply convert Vector2 from screenspace to worldspace and back?
         var finalMapPos = _hands.GetFinalDropCoordinates(player, _transform.GetMapCoordinates(player), mouseMapPos);
         var finalScreenPos = _eye.MapToScreen(new MapCoordinates(finalMapPos, mouseMapPos.MapId)).Position;
+        //handle.DrawString(_font, mouseScreenPos, mouseScreenPos.ToString());
+        //handle.DrawString(_font, mouseScreenPos + new System.Numerics.Vector2(0, 64), finalScreenPos.ToString());
 
-        var adjustedAngle = _entMan.GetComponent<HoldingDropComponent>(player).Angle;
+        Angle adjustedAngle = _entMan.GetComponent<HoldingDropComponent>(player).Angle;
         handle.RenderInRenderTarget(_renderBackbuffer, () =>
         {
             handle.DrawEntity(held, _renderBackbuffer.Size / 2, new Vector2(2), adjustedAngle);

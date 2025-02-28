@@ -1,8 +1,7 @@
 using System.Linq;
-using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 
-namespace Content.Shared._White.Hands.Components;
+namespace Content.Shared.Hands.Components;
 
 /// <summary>
 ///     These helpers exist to make getting basic information out of the hands component more convenient, without
@@ -41,5 +40,5 @@ public static class HandHelpers
     ///     Get a list of hands that are currently holding nothing. This is a LinQ method, not a property, so cache
     ///     it instead of accessing this multiple times.
     /// </summary>
-    public static IEnumerable<string> GetFreeHandNames(this HandsComponent component) => component.GetFreeHands().Select(hand => hand.Name);
+    public static IEnumerable<string> GetFreeHandNames(this HandsComponent component) => GetFreeHands(component).Select(hand => hand.Name);
 }

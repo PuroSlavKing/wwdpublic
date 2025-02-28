@@ -177,10 +177,6 @@ binds:
 - function: PreciseDrop
   type: State
   key: Q
-  mod1: Shift
-- function: PreciseDrop
-  type: State
-  key: Q
 - function: ActivateItemInHand
   type: State
   key: Z
