@@ -1,5 +1,13 @@
-using Content.Shared._White.Light.Components;
+using Content.Client.Items;
+using Content.Client.Light.Components;
+using Content.Shared.Light;
+using Content.Shared.Light.Components;
+using Content.Shared.Toggleable;
 using Robust.Client.GameObjects;
+using Content.Client.Light.EntitySystems;
+using Robust.Client.Animations;
+using Robust.Shared.Animations;
+using static Content.Shared.Fax.AdminFaxEuiMsg;
 
 namespace Content.Client._White.Light;
 
